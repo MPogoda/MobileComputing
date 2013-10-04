@@ -1,4 +1,5 @@
 MobileComputing
 ===============
 
-Project for Mobile Computing course
+Virtual bartender: Laboratory work for fuzzy logic
+
