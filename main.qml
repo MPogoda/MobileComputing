@@ -13,8 +13,8 @@ ApplicationWindow {
         Menu {
             title: qsTr("&File")
             MenuItem {
-                text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"));
+                text: qsTr("&Preferences")
+                onTriggered: parametersDialog.visible = true
             }
             MenuItem {
                 text: qsTr("E&xit")
@@ -23,11 +23,10 @@ ApplicationWindow {
         }
     }
 
-    MainForm {
+    ParametersDialog {
+        id: parametersDialog
         anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+        visible: false
     }
 
     MessageDialog {
