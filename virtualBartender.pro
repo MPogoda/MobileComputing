@@ -148,3 +148,5 @@ HEADERS += \
     fuzzylite/fuzzylite/fl/Operation.h \
     mainwindow.h \
     parametersdialog.h
+
+INCLUDEPATH += fuzzylite/fuzzylite
