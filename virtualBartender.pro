@@ -149,4 +149,8 @@ HEADERS += \
     mainwindow.h \
     parametersdialog.h
 
+FORMS += \
+    mainwindow.ui \
+    parametersdialog.ui
+
 INCLUDEPATH += fuzzylite/fuzzylite
