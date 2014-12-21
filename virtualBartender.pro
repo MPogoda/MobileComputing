@@ -66,8 +66,7 @@ SOURCES += \
     fuzzylite/fuzzylite/src/fuzzylite.cpp \
     fuzzylite/fuzzylite/src/Operation.cpp \
     main.cxx \
-    mainwindow.cxx \
-    parametersdialog.cxx
+    fuzzy_bartender.cpp
 
 RESOURCES += qml.qrc
 
@@ -146,11 +145,8 @@ HEADERS += \
     fuzzylite/fuzzylite/fl/fuzzylite.h \
     fuzzylite/fuzzylite/fl/Headers.h \
     fuzzylite/fuzzylite/fl/Operation.h \
-    mainwindow.h \
-    parametersdialog.h
+    fuzzy_bartender.h
 
-FORMS += \
-    mainwindow.ui \
-    parametersdialog.ui
+FORMS +=
 
 INCLUDEPATH += fuzzylite/fuzzylite
