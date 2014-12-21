@@ -5,15 +5,13 @@ import QtQuick.Controls 1.2
 ScrollView {
     id: page
 
-    property alias timeLeft: timeLeft
-    property alias drunkResistance: drunkResistance
-    property alias okbutton: okButton
 
     Item {
         id: content
 
         width: page.viewport.width
         height: page.viewport.height
+
 
         ColumnLayout {
             id: column
@@ -36,6 +34,7 @@ ScrollView {
                         maximumValue: 8
                         stepSize: 0.5
                         tickmarksEnabled: true
+                        onValueChanged: bartender.setHours( timeLeft.value )
                     }
                     Text {
                         text: timeLeft.value + qsTr( " hours")
@@ -57,6 +56,7 @@ ScrollView {
                         maximumValue: 2
                         stepSize: 1
                         tickmarksEnabled: true
+                        onValueChanged: bartender.setProfile( drunkResistance.value )
                     }
                     Text {
                         text: if (0 == drunkResistance.value) {
@@ -64,20 +64,33 @@ ScrollView {
                             } else if (1 == drunkResistance.value) {
                                 return qsTr( "College student" );
                             } else {
-                                return qsTr( "King" );
+                                return qsTr( "Boris Eltsin" );
                             }
                         anchors.right: parent.right
                     }
                 }
             }
 
-            Button {
-                id: okButton
-                text: qsTr( "OK" )
-                isDefault: true
-//                onClicked: page.visible = false
+            Text {
+                id: helpText
             }
+
         }
     }
 
+    function setHelpText( authorised, mainStarted) {
+        console.log( "setting...(Authorised:" + authorised + ", mainstarted: " + mainStarted + ")")
+        helpText.text =  qsTr( "" )
+
+        if (authorised) {
+            if (mainStarted) {
+                helpText.text = qsTr( "Main started...")
+            }
+        } else {
+            helpText.text =  qsTr( "Unauthorised..." );
+        }
+
+    }
+
+    Component.onCompleted: setHelpText( false, false )
 }

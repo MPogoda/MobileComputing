@@ -27,14 +27,13 @@ public:
 
     void sip( uint32_t ml );
 private:
-    const uint32_t      drunknessMaximum_;
     double              hoursForMl_;
     fl::Engine          engine_;
-    fl::InputVariable   time_;
-    fl::InputVariable   groupSize_;
-    fl::InputVariable   drunkness_;
-    fl::OutputVariable  beverage_;
-    fl::RuleBlock       rules_;
+    fl::InputVariable*  time_;
+    fl::InputVariable*  groupSize_;
+    fl::InputVariable*  drunkness_;
+    fl::OutputVariable* beverage_;
+    fl::RuleBlock*      rules_;
 
 
     void p_configureTime();
@@ -43,6 +42,5 @@ private:
     void p_configureBeverage();
     void p_configureRules();
     void p_configureEngine();
-//    const uint8_t               level_;
 }; // class FuzzyBartender
 } // namespace virtualBartender

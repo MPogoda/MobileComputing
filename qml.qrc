@@ -5,5 +5,6 @@
         <file>qml/MainWindow.qml</file>
         <file>qml/UI.js</file>
         <file>qml/+android/UI.js</file>
+        <file>qml/AuthorisationForm.qml</file>
     </qresource>
 </RCC>

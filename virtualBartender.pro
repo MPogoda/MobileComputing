@@ -66,7 +66,8 @@ SOURCES += \
     fuzzylite/fuzzylite/src/fuzzylite.cpp \
     fuzzylite/fuzzylite/src/Operation.cpp \
     main.cxx \
-    fuzzy_bartender.cpp
+    fuzzy_bartender.cpp \
+    bartender_interface.cpp
 
 RESOURCES += qml.qrc
 
@@ -145,7 +146,8 @@ HEADERS += \
     fuzzylite/fuzzylite/fl/fuzzylite.h \
     fuzzylite/fuzzylite/fl/Headers.h \
     fuzzylite/fuzzylite/fl/Operation.h \
-    fuzzy_bartender.h
+    fuzzy_bartender.h \
+    bartender_interface.h
 
 FORMS +=
 

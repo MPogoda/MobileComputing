@@ -7,6 +7,9 @@ import QtQuick.Dialogs 1.2
 ScrollView {
     id: page
 
+    signal started
+    signal stopped
+
     Item {
         id: content
 
@@ -38,11 +41,10 @@ ScrollView {
                             Layout.fillWidth: true;
                             value: 0
                             minimumValue: 0
-                            maximumValue: 100
                             enabled: false
                         }
                         Text {
-                            text: drunkness.value + qsTr( "%" )
+                            text: Math.round(10000 * (drunkness.value / drunkness.maximumValue))/100 + qsTr( "%" )
                             anchors.right: parent.right
                         }
                     }
@@ -59,7 +61,19 @@ ScrollView {
                             enabled: false
                         }
                         Text {
-                            text: timeLeft.value + qsTr( " hours" )
+                            function getText( value ) {
+                                if (value < 0 ) {
+                                    value = 0
+                                }
+
+                                var hours = Math.floor( value );
+                                var minutes = Math.floor( 60 * (value - hours) )
+                                console.log( minutes)
+                                return hours + qsTr( " hour(s)") + ((minutes >1) ? ", " + minutes + qsTr( " minutes") : "")
+
+                            }
+
+                            text: getText( timeLeft.value)
                             anchors.right: parent.right
                         }
                     }
@@ -76,6 +90,7 @@ ScrollView {
                             minimumValue: 0
                             maximumValue: 16
                             stepSize: 1
+                            onValueChanged: bartender.setGroupSize( companySize.value )
                         }
                         Text {
                             text: companySize.value + qsTr( " guys")
@@ -88,7 +103,8 @@ ScrollView {
                     Layout.fillWidth: true
                     anchors.bottom: parent.bottom
                     text: qsTr( "Drink some" )
-                    onClicked: pint.setOrder( 1000 )
+                    enabled: pint.value == 0
+                    onClicked: order()
                 }
             }
             GroupBox {
@@ -107,6 +123,17 @@ ScrollView {
                         Layout.fillHeight: true
                         orientation: Qt.Vertical
                         onValueChanged: drink( value )
+                        enabled: isEnabled()
+
+                        function isEnabled() {
+                            if ((drunkness.value < drunkness.maximumValue) && (timeLeft.value > 0)) {
+                                return true;
+                            }
+
+                            console.log( "Stopping..." )
+                            page.stopped()
+                            return false;
+                        }
 
                         property int oldValue;
 
@@ -126,10 +153,35 @@ ScrollView {
                             if (value > pint.oldValue) {
                                 pint.value = oldValue;
                             } else {
-                                oldValue = value;
+                                var diff = oldValue - value
+                                if (diff >= 10 || value === 0) {
+                                    bartender.sip( oldValue - value)
+                                    timeLeft.value = bartender.hours()
+                                    drunkness.value += (oldValue - value)
+
+                                    console.log( drunkness.value )
+                                    console.log( drunkness.maximumValue)
+
+                                    oldValue = value;
+                                }
                             }
                         }
                     }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Item {
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            anchors.horizontalCenter: pint.anchors.horizontalCenter
+                            text: Math.round( pint.value )+ qsTr(" ml")
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
+                    }
+
                 }
             }
 
@@ -137,23 +189,26 @@ ScrollView {
 
     }
 
+    function order() {
+        page.started()
 
-    function increaseDrunkness( value ) {
-        if ((value + drunkness.value) >= 100) {
-            drunkness.value = 100;
-            stop();
+        var orderValue = bartender.order()
+        if (0 === orderValue) {
+            console.log( "Stopping...")
+            page.stopped()
         } else {
-            drunkness.value += value;
+            pint.setOrder( bartender.order() )
         }
+
     }
 
-    function decreaseTime( value ) {
-        if (timeLeft.value > value) {
-            timeLeft.value -= value;
-        } else {
-            timeLeft.value = 0;
-            stop();
-        }
+    function reconfigure() {
+        console.log( "Reconfiguring main window...")
+        drunkness.maximumValue = bartender.maximumDrunkness();
+        drunkness.value = 0
+        timeLeft.maximumValue = bartender.hours();
+        timeLeft.value = timeLeft.maximumValue
     }
 
+    Component.onCompleted: reconfigure()
 }
