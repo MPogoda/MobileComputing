@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qml/ParametersDialog.qml</file>
+        <file>qml/MainWindow.qml</file>
+        <file>qml/UI.js</file>
+        <file>qml/+android/UI.js</file>
+        <file>qml/AuthorisationForm.qml</file>
+    </qresource>
+</RCC>
